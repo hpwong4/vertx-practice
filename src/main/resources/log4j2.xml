@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" monitorinterval="60">
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [ %t ] [ %p ] [%logger] %m%n" />-->
+            <!--线下环境为了 debug 代码，所以开启了文件名称和行号的追踪，线上只打印 logger 名称-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [ %t ] [ %p ] [%F::%L] %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+            <AppenderRef ref="console"/>
+        </Root>
+        <logger name="io.netty" level="warn" />
+    </Loggers>
+</Configuration>
