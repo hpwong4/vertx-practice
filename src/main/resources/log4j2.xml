@@ -9,7 +9,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="error">
+        <Root level="info">
             <AppenderRef ref="console"/>
         </Root>
         <logger name="io.netty" level="warn" />

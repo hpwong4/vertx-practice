@@ -22,7 +22,7 @@ public class HelloVerticle extends AbstractVerticle {
     vertx.createHttpServer().requestHandler(req -> {
       logger.debug("req from {}, counter = {}", req.remoteAddress().host(), counter++);
       req.response().end("Hello");
-    }).listen(8080);
+    }).listen(8081);
 
     logger.debug("open http://localhost:8080");
   }
