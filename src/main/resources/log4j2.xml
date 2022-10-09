@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info" monitorinterval="60">
+    <Properties>
+        <property name="log.dir">./log/</property>
+        <property name="log.file">hermes.log</property>
+        <property name="file_pattern_default">.%d{yyyy-MM-dd-HH}</property>
+    </Properties>
 
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
@@ -7,11 +12,37 @@
             <!--线下环境为了 debug 代码，所以开启了文件名称和行号的追踪，线上只打印 logger 名称-->
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [ %t ] [ %p ] [%F::%L] %m%n"/>
         </Console>
+
+        <RollingRandomAccessFile name="ctr-file"
+                                 fileName="${log.dir}/ctr/${log.file}"
+                                 filePattern="${log.dir}/ctr/${log.file}${file_pattern_default}"
+                                 immediateFlush="false" append="true"
+                                 ignoreExceptions="false">
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${log.dir}/ctr" maxDepth="1">
+                    <IfFileName glob="${log.file}.*"/>
+                    <IfLastModified age="5h"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+
+
+
+
     </Appenders>
     <Loggers>
         <Root level="info">
             <AppenderRef ref="console"/>
         </Root>
         <logger name="io.netty" level="warn" />
+
+        <AsyncLogger name="ctr-logger" level="INFO" additivity="false">
+            <AppenderRef ref="ctr-file"/>
+        </AsyncLogger>
+
     </Loggers>
 </Configuration>
